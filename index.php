@@ -1,17 +1,15 @@
 <?php 
+	session_start();
 	$bdd = new PDO('mysql:host=localhost;dbname=test', 'root', '' );
 	if(isset($_POST['pseudo'], $_POST['password'])){
-		session_start();
 		$_SESSION['pseudo']= $_POST['pseudo'];
 		$_SESSION['password']= $_POST['password'];
-
 		$utilisateurs = $bdd->query("SELECT * FROM login");
 		foreach ($utilisateurs as $key => $login) {
 			if($login['pseudo'] == $_SESSION['pseudo'] AND $login['password'] == $_SESSION['password']){
 				$connect = true;
 			}
 		}
-
 		if($connect == false){
 			session_unset(); 
 			session_destroy();
@@ -33,7 +31,6 @@
 <body>
 
 <?php 
-
 if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	echo "<form action='traitement.php' method='post'>";
 	echo 	"<label>Message : </label><input type='text' name='message' placeholder='Message' >";
@@ -46,7 +43,6 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	echo 	"<button type='submit' name='bouton'>Connexion</button>";
 	echo "</form>";
 }
-
 ?>
 
 <?php
@@ -54,13 +50,11 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	foreach ($contenu as $ligne) {
 		echo $ligne['id'] . ') <span style="color:blue; font-weight:bold;">' . $ligne['pseudo'] . '</span> : ' .$ligne['message'] .  '</br>';
 	}
-
 	if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 		echo "<form action='deconnexion.php' method='post'>";
 		echo 	"<button type='submit' name='bouton'>Déconnexion</button>";
 		echo "</form>";
 	}
-
 ?>
 
 </body>
