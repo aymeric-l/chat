@@ -6,7 +6,7 @@
 		$_SESSION['password']= $_POST['password'];
 		$utilisateurs = $bdd->query("SELECT * FROM login");
 		foreach ($utilisateurs as $key => $login) {
-			if($login['pseudo'] == $_SESSION['pseudo'] AND $login['password'] == $_SESSION['password']){
+			if($login['pseudo'] == ucfirst($_SESSION['pseudo']) AND $login['password'] == $_SESSION['password']){
 				$connect = true;
 			}
 		}
@@ -41,14 +41,19 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	echo "<label>Votre pseudo : </label><input type='text' name='pseudo' placeholder='Pseudo' >";
 	echo "<label>Mot de Passe : </label><input type='password' name='password' placeholder='Mot de passe' >";
 	echo 	"<button type='submit' name='bouton'>Connexion</button>";
+	echo "<a href='inscription.php'><input type='button' value='INSCRIPTION' style='margin-left: 15px;height:50px;width:120px;' ></a>";
 	echo "</form>";
+
 }
 ?>
 
 <?php
+	$droit = 'blue';
 	//On parcoure le tableau et à chaque nouvelles lignes, on ajoute son contenu dans la variable $ligne
 	foreach ($contenu as $ligne) {
-		echo $ligne['id'] . ') <span style="color:blue; font-weight:bold;">' . $ligne['pseudo'] . '</span> : ' .$ligne['message'] .  '</br>';
+		if($ligne['droit'] == 'admin'){$droit = 'red';}else if($ligne['droit'] == 'modo'){$droit = 'green';}
+		echo $ligne['id'] . ') <span style="color:' . $droit . '; font-weight:bold;">' . ucfirst($ligne['pseudo']) . '</span> : ' .$ligne['message'] .  '</br>';
+		$droit = 'blue';
 	}
 	if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 		echo "<form action='deconnexion.php' method='post'>";
