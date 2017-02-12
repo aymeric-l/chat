@@ -8,6 +8,7 @@
 		foreach ($utilisateurs as $key => $login) {
 			if($login['pseudo'] == ucfirst($_SESSION['pseudo']) AND $login['password'] == $_SESSION['password']){
 				$connect = true;
+				$_SESSION['droit'] = $login['droit'];
 			}
 		}
 		if($connect == false){
@@ -27,12 +28,25 @@
 <html>
 <head>
 	<title>Le chat de la fabrik !</title>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		function message() {
+		   $.ajax({
+		      type: "GET",
+		      url: "messages.php"
+		   }).done(function (html) {
+		      $('#messages').html(html); // Retourne dans #maDiv le contenu de ta page
+		      setTimeout(message, 5000);
+		   });
+		}      
+		message();
+	</script>
 </head>
 <body>
 
 <?php 
 if(isset($_SESSION["pseudo"], $_SESSION["password"])){
-	echo "<form action='traitement.php' method='post'>";
+	echo "<form action='traitement.php' method='post' style='padding-bottom:16px;'>";
 	echo 	"<label>Message : </label><input type='text' name='message' placeholder='Message' >";
 	echo 	"<input type='submit' name='bouton'>";
 	echo "</form>";
@@ -46,19 +60,21 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 
 }
 ?>
+<?php 
+// if(isset($_SESSION['droit'])){
+// 	if($_SESSION['droit'] == 'admin'){
+// 		echo "<form action='admin.php' method='post'>";
+// 		echo "<input type='text' name='message_cible' placeholder='Message à modifier' style='width:150px'>";
+// 		echo "<input type='submit' name='boutonDroit'>";
+// 	}
+// }
 
+?>
+<div id="messages"></div>
 <?php
-	$droit = 'blue';
-	//On parcoure le tableau et à chaque nouvelles lignes, on ajoute son contenu dans la variable $ligne
-	foreach ($contenu as $ligne) {
-		if($ligne['droit'] == 'admin'){$droit = 'red';}else if($ligne['droit'] == 'modo'){$droit = 'green';}
-		echo $ligne['id'] . ') <span style="color:' . $droit . '; font-weight:bold;">' . ucfirst($ligne['pseudo']) . '</span> : ' .$ligne['message'] .  '</br>';
-		$droit = 'blue';
-	}
+
 	if(isset($_SESSION["pseudo"], $_SESSION["password"])){
-		echo "<form action='deconnexion.php' method='post'>";
-		echo 	"<button type='submit' name='bouton'>Déconnexion</button>";
-		echo "</form>";
+		echo 	"<a href='deconnexion.php'><input type='button' name='bouton' value='Déconnexion'></a>";
 	}
 ?>
 

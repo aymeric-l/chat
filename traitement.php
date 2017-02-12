@@ -3,16 +3,14 @@ session_start();
 	$droit = 'membre';
 	$pseudo = $_SESSION["pseudo"];
 	$bdd = new PDO('mysql:host=localhost;dbname=test', 'root', '' ); // Connexion à la base de données
-	$message = $_POST['message']; // message saisi par l'utilisateur
-	// Prepare la requete qui est : insert dans le tab 'chat' (catégorie pseudo et message)
-	// des valeurs encore non définies ! 
+	$message = $_POST['message'];
 	$recherche = $bdd->query('SELECT * FROM login');
 
 
 	foreach ($recherche as $quelEstLeDroit) {
-		if($quelEstLeDroit['pseudo'] == $_SESSION['pseudo'] AND $quelEstLeDroit['droit'] == 'admin'){
+		if($quelEstLeDroit['pseudo'] == ucfirst($_SESSION['pseudo']) AND $quelEstLeDroit['droit'] == 'admin'){
 			$droit = 'admin';
-		}else if($quelEstLeDroit['pseudo'] == $_SESSION['pseudo'] AND $quelEstLeDroit['droit'] == 'modo'){
+		}else if($quelEstLeDroit['pseudo'] == ucfirst($_SESSION['pseudo']) AND $quelEstLeDroit['droit'] == 'modo'){
 			$droit = 'modo';
 		}
 	}

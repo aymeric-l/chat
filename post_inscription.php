@@ -11,12 +11,12 @@
 			}
 		}
 
-		var_dump($non_existant, $value['pseudo'], $value['password']);
+		//var_dump($non_existant, $value['pseudo'], $value['password']);
 		if($non_existant == true){
 		$inscription = $bdd->prepare('INSERT INTO login(pseudo, password) VALUES (:pseudo, :password) '); 
 		$inscription->execute(array('pseudo' => ucfirst($_POST['futur_pseudo']), 'password' => $_POST['futur_password']));
 		}
-		//Header('Location: index.php');
+		Header('Location: index.php');
 	}
 
 ?>
