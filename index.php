@@ -28,6 +28,8 @@
 <html>
 <head>
 	<title>Le chat de la fabrik !</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript">
 		function message() {
@@ -43,7 +45,7 @@
 	</script>
 </head>
 <body>
-
+<div id="body">
 <?php 
 if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	echo "<form action='traitement.php' method='post' style='padding-bottom:16px;'>";
@@ -57,9 +59,13 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 	echo 	"<button type='submit' name='bouton'>Connexion</button>";
 	echo "<a href='inscription.php'><input type='button' value='INSCRIPTION' style='margin-left: 15px;height:50px;width:120px;' ></a>";
 	echo "</form>";
-
 }
+
+	if(isset($_SESSION["pseudo"], $_SESSION["password"])){
+		echo 	"<a href='deconnexion.php'><input type='button' name='bouton' value='Déconnexion'></a>";
+	}
 ?>
+</div>
 <?php 
 // if(isset($_SESSION['droit'])){
 // 	if($_SESSION['droit'] == 'admin'){
@@ -71,12 +77,6 @@ if(isset($_SESSION["pseudo"], $_SESSION["password"])){
 
 ?>
 <div id="messages"></div>
-<?php
-
-	if(isset($_SESSION["pseudo"], $_SESSION["password"])){
-		echo 	"<a href='deconnexion.php'><input type='button' name='bouton' value='Déconnexion'></a>";
-	}
-?>
 
 </body>
 </html>

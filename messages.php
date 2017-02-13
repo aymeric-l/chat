@@ -10,7 +10,7 @@ $supprDeux = "' style='display:none'/><input type='submit' name='boutonSubmit' v
 		if($ligne['droit'] == 'admin'){$droit = 'red';}else if($ligne['droit'] == 'modo'){$droit = 'green';}
 
 		if(isset($_SESSION['droit'])){if($_SESSION['droit'] == 'admin'){echo $suppr . $ligne['id'] . $supprDeux;}}
-		echo $ligne['id'] . ') <span style="color:' . $droit . '; font-weight:bold;">' . ucfirst($ligne['pseudo']) . '</span> : ' .
+		echo '<span style="color:' . $droit . '; font-weight:bold;">' . ucfirst($ligne['pseudo']) . '</span> : ' .
 		$ligne['message'] . '</div></br>';
 		$droit = 'blue';
 	}
